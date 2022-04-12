@@ -208,7 +208,7 @@ int main(int argc, char* argv[]){
                 continue;
             }
             pthread_cond_signal(&cond[th_num]);
-            cout<<"...... SET Operation is working : " << (double)i/operation_count * 100 <<"% ......\r";
+            cout<<"...... SET Operation is working! : " << (double)i/operation_count * 100 <<"% ......\r";
         }
         cout<<endl;
        while(1){
@@ -244,7 +244,7 @@ int main(int argc, char* argv[]){
 
         for(auto &r : set_result)
             set_avg += r;
-        cout<<"[SET] IOPS : " << ((long long)operation_count)/(set_avg/set_result.size()) << endl;        
+        cout<<"[SET] Throughput : " << ((long long)operation_count)*100000/set_avg << endl;        
         cout<<"[SET] Avarage Latency : "<<set_avg/set_result.size() << endl;
         cout<<"[SET] 95% Latency : "<<set_result[set_result.size()*0.95] << endl;
         cout<<"[SET] 99% Latency : "<<set_result[set_result.size()*0.99] << endl;
@@ -287,7 +287,7 @@ int main(int argc, char* argv[]){
             total_key.pop();
             pthread_cond_signal(&cond[th_num]);
         
-            cout<<"...... GET Operation is working : " <<(double)i/operation_count * 100 <<"% ......\r";
+            cout<<"...... GET Operation is working! : " <<(double)i/operation_count * 100 <<"% ......\r";
         }
         cout<<endl;
         while(1){
@@ -324,7 +324,7 @@ int main(int argc, char* argv[]){
         for(auto &r : get_result)
             get_avg += r;
 
-        cout<<"[GET] IOPS : " << ((long long)operation_count)/(get_avg/get_result.size()) << endl;        
+        cout<<"[GET] Throughput : " << ((long long)operation_count)*100000/get_avg << endl;        
         cout<<"[GET] Avarage Latency : "<<get_avg/get_result.size()<<endl;
         cout<<"[GET] 95% Latency : "<<get_result[get_result.size()*0.95]<<endl;
         cout<<"[GET] 99% Latency : "<<get_result[get_result.size()*0.99]<<endl;
