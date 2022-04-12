@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ljkim/j_benchmark/client.cpp" "/home/ljkim/j_benchmark/CMakeFiles/client.dir/client.cpp.o"
+  "/home/ljkim/async_benchmark/client.cpp" "/home/ljkim/async_benchmark/CMakeFiles/client.dir/client.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

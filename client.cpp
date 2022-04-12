@@ -208,7 +208,7 @@ int main(int argc, char* argv[]){
                 continue;
             }
             pthread_cond_signal(&cond[th_num]);
-            cout<<"SET Operation is working : " << (double)i/operation_count * 100 <<"%\r";
+            cout<<"...... SET Operation is working : " << (double)i/operation_count * 100 <<"% ......\r";
         }
         cout<<endl;
        while(1){
@@ -287,7 +287,7 @@ int main(int argc, char* argv[]){
             total_key.pop();
             pthread_cond_signal(&cond[th_num]);
         
-            cout<<"GET Operation is working : " <<(double)i/operation_count * 100 <<"%\r";
+            cout<<"...... GET Operation is working : " <<(double)i/operation_count * 100 <<"%\r ......";
         }
         cout<<endl;
         while(1){
