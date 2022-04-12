@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ljkim/j_benchmark/client.cpp
+stdlib.h
+-
+stdio.h
+-
+netdb.h
+-
+sys/socket.h
+-
+sys/un.h
+-
+sys/time.h
+-
+vector
+-
+string
+-
+queue
+-
+boost/asio.hpp
+-
+boost/bind.hpp
+-
+iostream
+-
+errno.h
+-
+thread
+-
+random
+-
+map
+-
+boost/algorithm/string.hpp
+-
+
