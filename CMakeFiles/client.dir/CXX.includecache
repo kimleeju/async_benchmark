@@ -41,4 +41,6 @@ map
 -
 boost/algorithm/string.hpp
 -
+boost/math/distributions/pareto.hpp
+-
 

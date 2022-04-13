@@ -15,7 +15,9 @@
 #include <random>
 #include <map>
 #include <boost/algorithm/string.hpp>
+#include <boost/math/distributions/pareto.hpp>
 #define TH_MAX 40
+
 using namespace std;
 using boost::asio::ip::tcp;
 
@@ -54,7 +56,6 @@ queue<string> th_key[TH_MAX];
 a_queue<long long> set_latency;
 a_queue<long long> get_latency;
 
-
 static long long ustime(void){
     struct timeval tv;
     long long ust;
@@ -91,8 +92,6 @@ void create_request(const char* IP, const char* PORT, bool set_flag, int k_size,
         cout<<"No address. Unable to connect " <<stream.error().message() << endl;
         return;
     }
-    //stream << "Hello";
-    //stream << endl;
     while(1){
         th_queue.push(th_num);
         
@@ -125,12 +124,10 @@ void create_request(const char* IP, const char* PORT, bool set_flag, int k_size,
             start = ustime();
             stream << msg ;
             set_latency.push(ustime() - start);
-            
+           
             getline(stream, recv);
-           // if(recv.find("+OK") != string::npos){
             k_que[th_num].push(key);
             cnt[th_num]++;
-           // }
             free(xvalue);
         }
 
@@ -173,8 +170,9 @@ int main(int argc, char* argv[]){
         
 
         mt19937 gen(operation_count);
-        poisson_distribution<> d(atoi(argv[6]));
-
+        poisson_distribution<> po_dist(atoi(argv[6]));
+        boost::math::pareto_distribution<> pa_dist(atoi(argv[6]));
+        
         bool th_flag=true;
         b_finish = false;        
 
@@ -199,7 +197,7 @@ int main(int argc, char* argv[]){
         }
         
         for(i = 0 ; i < operation_count; i++){
-            usleep(d(gen));
+            usleep(po_dist(gen));
             th_num = th_queue.pop();
             
             if(th_num == -1){
@@ -274,7 +272,7 @@ int main(int argc, char* argv[]){
     
 
         for(i = 0 ; i < operation_count; i++){ 
-            usleep(d(gen));
+            usleep(po_dist(gen));
             th_num = th_queue.pop();
 #if 1
             if(th_num == -1){
