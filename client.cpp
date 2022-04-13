@@ -163,15 +163,14 @@ int main(int argc, char* argv[]){
         unsigned int size;
 
         long long average=0;
-//        c.create_conn(argv[1], argv[2]);
         
 		int count=0;
 		int operation_count = atoi(argv[3]);
         
 
         mt19937 gen(operation_count);
-        poisson_distribution<> po_dist(atoi(argv[6]));
-        boost::math::pareto_distribution<> pa_dist(atoi(argv[6]));
+        poisson_distribution<> d(atoi(argv[6]));
+//        boost::math::pareto_distribution<> d(atoi(argv[6]));
         
         bool th_flag=true;
         b_finish = false;        
@@ -197,7 +196,7 @@ int main(int argc, char* argv[]){
         }
         
         for(i = 0 ; i < operation_count; i++){
-            usleep(po_dist(gen));
+            usleep(d(gen));
             th_num = th_queue.pop();
             
             if(th_num == -1){
@@ -272,7 +271,7 @@ int main(int argc, char* argv[]){
     
 
         for(i = 0 ; i < operation_count; i++){ 
-            usleep(po_dist(gen));
+            usleep(d(gen));
             th_num = th_queue.pop();
 #if 1
             if(th_num == -1){
