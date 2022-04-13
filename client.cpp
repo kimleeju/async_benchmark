@@ -196,7 +196,7 @@ int main(int argc, char* argv[]){
         }
         
         for(i = 0 ; i < operation_count; i++){
-            usleep(d(gen));
+            usleep(d(gen)*1000);
             th_num = th_queue.pop();
             
             if(th_num == -1){
@@ -271,7 +271,7 @@ int main(int argc, char* argv[]){
     
 
         for(i = 0 ; i < operation_count; i++){ 
-            usleep(d(gen));
+            usleep(d(gen)*1000);
             th_num = th_queue.pop();
 #if 1
             if(th_num == -1){
