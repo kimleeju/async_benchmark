@@ -16,6 +16,7 @@
 #include <map>
 #include <boost/algorithm/string.hpp>
 #include <boost/math/distributions/pareto.hpp>
+
 #define TH_MAX 40
 
 using namespace std;
@@ -166,12 +167,13 @@ int main(int argc, char* argv[]){
         
 		int count=0;
 		int operation_count = atoi(argv[3]);
-        
 
+        
         mt19937 gen(operation_count);
         poisson_distribution<> d(atoi(argv[6]));
-//        boost::math::pareto_distribution<> d(atoi(argv[6]));
-        
+//        lognormal_distribution<> d(atoi(argv[6]));
+//        boost:math::pareto_distribution<> d();
+
         bool th_flag=true;
         b_finish = false;        
 
@@ -196,7 +198,7 @@ int main(int argc, char* argv[]){
         }
         
         for(i = 0 ; i < operation_count; i++){
-            usleep(d(gen)*1000);
+            usleep(100000/(d(gen)+1));
             th_num = th_queue.pop();
             
             if(th_num == -1){
@@ -271,7 +273,7 @@ int main(int argc, char* argv[]){
     
 
         for(i = 0 ; i < operation_count; i++){ 
-            usleep(d(gen)*1000);
+            usleep(100000/(d(gen)+1));
             th_num = th_queue.pop();
 #if 1
             if(th_num == -1){
