@@ -197,8 +197,12 @@ int main(int argc, char* argv[]){
             tid[i] = thread(create_request,argv[1],argv[2], true, atoi(argv[4]), atoi(argv[5]), i , cond, mutex, k_que);
         }
         
+        int wait;
+        FILE* fp=fopen("wait.txt","w");
         for(i = 0 ; i < operation_count; i++){
-            usleep(100000/(d(gen)+1));
+            wait = 100000/(d(gen)+1);
+            fprintf(fp,"%d\n",wait);
+            usleep(wait);
             th_num = th_queue.pop();
             
             if(th_num == -1){
