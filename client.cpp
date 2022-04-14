@@ -170,8 +170,8 @@ int main(int argc, char* argv[]){
 
         
         mt19937 gen(operation_count);
-        poisson_distribution<> d(atoi(argv[6]));
-//        lognormal_distribution<> d(atoi(argv[6]));
+//        poisson_distribution<> d(atoi(argv[6]));
+        lognormal_distribution<> d(atoi(argv[6]));
 //        boost:math::pareto_distribution<> d();
 
         bool th_flag=true;
