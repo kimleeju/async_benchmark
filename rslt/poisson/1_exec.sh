@@ -1,6 +1,5 @@
-DIR="../rslt/poisson/"
 FILE="poisson_1 poisson_10 poisson_50"
-OFILE=$DIR/poisson.txt
+OFILE=poisson.txt
 
 TFILE=temp.tmp
 n=0
@@ -10,8 +9,8 @@ for i in {1..1000}; do
 done
 
 for FI in $FILE; do
-	start=(`head -n 1 $DIR/$FI.txt` + 0 )
-	cat $DIR/$FI.txt | awk '{printf("%.6f\n", ($1-'"$start"')/1000000)}' > $n.tmp
+	start=(`head -n 1 $FI.txt` + 0 )
+	cat $FI.txt | awk '{printf("%.6f\n", ($1-'"$start"')/1000000)}' > $n.tmp
 	n=$(($n + 1))
 done
 
