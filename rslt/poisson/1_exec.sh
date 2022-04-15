@@ -1,5 +1,5 @@
 FILE="poisson_1 poisson_10 poisson_50"
-OFILE=poisson.txt
+OFILE="poisson.txt"
 
 TFILE=temp.tmp
 n=0
@@ -10,7 +10,7 @@ done
 
 for FI in $FILE; do
 	start=(`head -n 1 $FI.txt` + 0 )
-	cat $FI.txt | awk '{printf("%.6f\n", ($1-'"$start"')/1000000)}' > $n.tmp
+	cat $FI.txt | awk '{printf("%.4f\n",$1/1000)}' | sort - | sort -nn  > $n.tmp
 	n=$(($n + 1))
 done
 
