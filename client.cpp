@@ -198,7 +198,7 @@ int main(int argc, char* argv[]){
         }
         
         int wait;
-        FILE* fp=fopen("wait.txt","w");
+        FILE* fp=fopen("poisson_50.txt","w");
         for(i = 0 ; i < operation_count; i++){
             wait = 100000/(d(gen)+1);
             fprintf(fp,"%d\n",wait);
