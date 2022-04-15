@@ -18,6 +18,8 @@
 #include <boost/math/distributions/pareto.hpp>
 
 #define TH_MAX 40
+#define _PS
+//#define _LN
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -155,11 +157,19 @@ void create_request(const char* IP, const char* PORT, bool set_flag, int k_size,
 }
 int main(int argc, char* argv[]){
     try{
-
+#ifdef _PS
         if(argc != 7){
             cerr << "Usage : <host> <port> <operation number> <key_size> <value_size> <lambda>" << endl;
             return 1;
         }
+#endif
+
+#ifdef _LN
+        if(argc != 8){
+            cerr << "Usage : <host> <port> <operation number> <key_size> <value_size> <mu> <sigma>" << endl;
+            return 1;
+        }
+#endif
 
         unsigned int size;
 
@@ -168,10 +178,14 @@ int main(int argc, char* argv[]){
 		int count=0;
 		int operation_count = atoi(argv[3]);
 
-        
-        mt19937 gen(operation_count);
+//        std::default_random_engine gen;
+        mt19937 gen(1701);
+#ifdef _PS
         poisson_distribution<> d(atoi(argv[6]));
-//        lognormal_distribution<> d(atoi(argv[6]));
+#endif
+#ifdef _LN
+        lognormal_distribution<> d(atof(argv[6]),atof(argv[7]));
+#endif
 //        boost:math::pareto_distribution<> d();
 
         bool th_flag=true;
@@ -197,10 +211,15 @@ int main(int argc, char* argv[]){
             tid[i] = thread(create_request,argv[1],argv[2], true, atoi(argv[4]), atoi(argv[5]), i , cond, mutex, k_que);
         }
         double wait;      
-        FILE* fp=fopen("poisson_1.txt","w");
+        FILE* fp=fopen("poisson.txt","w");
         for(i = 0 ; i < operation_count; i++){
-            wait =100000/(d(gen)+1);
-            //cout<<wait<<endl;
+#ifdef _PS
+            wait = 100000/(d(gen)+1);
+#endif
+
+#ifdef _LN
+            wait = d(gen)*1000;
+#endif
             fprintf(fp,"%f\n",wait);
             usleep(wait);
             th_num = th_queue.pop();
@@ -254,8 +273,8 @@ int main(int argc, char* argv[]){
         cout<<"[SET] 99% Latency : "<<set_result[set_result.size()*0.99] << endl;
         cout<<"[SET] 99.9% Latency : "<<set_result[set_result.size()*0.999] << endl;
         cout<<"[SET] 99.99% Latency : "<<set_result[set_result.size()*0.9999] << endl;
-        
         cout<<"=========================================" << endl;
+      
 #if 0
         //GET
         b_finish = false;
@@ -338,6 +357,7 @@ int main(int argc, char* argv[]){
     
         cout<<"========================================="<<endl;
 #endif
+        fclose(fp);
     }catch(exception& e){
         cerr<<"Exception : " << e.what() << endl;
     }
