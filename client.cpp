@@ -255,6 +255,7 @@ int main(int argc, char* argv[]){
         cout<<"[SET] 99.99% Latency : "<<set_result[set_result.size()*0.9999] << endl;
         
         cout<<"=========================================" << endl;
+#if 0
         //GET
         b_finish = false;
         total_operation = 0;
@@ -335,6 +336,7 @@ int main(int argc, char* argv[]){
         cout<<"[GET] 99.99% Latency : "<<get_result[get_result.size()*0.9999]<<endl;
     
         cout<<"========================================="<<endl;
+#endif
     }catch(exception& e){
         cerr<<"Exception : " << e.what() << endl;
     }
