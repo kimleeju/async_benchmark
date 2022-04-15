@@ -14,6 +14,6 @@ for FI in $FILE; do
 	n=$(($n + 1))
 done
 
-echo "percent S=1 S=10 S=50" > $OFILE 
+echo "percent SIG=1 SIG=10 SIG=50" > $OFILE 
 paste $TFILE 0.tmp 1.tmp 2.tmp >> $OFILE
 rm *.tmp
