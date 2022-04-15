@@ -170,8 +170,8 @@ int main(int argc, char* argv[]){
 
         
         mt19937 gen(operation_count);
-//        poisson_distribution<> d(atoi(argv[6]));
-        lognormal_distribution<> d(atoi(argv[6]));
+        poisson_distribution<> d(atoi(argv[6]));
+//        lognormal_distribution<> d(atoi(argv[6]));
 //        boost:math::pareto_distribution<> d();
 
         bool th_flag=true;
@@ -196,16 +196,17 @@ int main(int argc, char* argv[]){
             pthread_cond_init(&cond[i],NULL);
             tid[i] = thread(create_request,argv[1],argv[2], true, atoi(argv[4]), atoi(argv[5]), i , cond, mutex, k_que);
         }
-        
-        int wait;
-        FILE* fp=fopen("poisson_50.txt","w");
+        double wait;      
+        FILE* fp=fopen("poisson_1.txt","w");
         for(i = 0 ; i < operation_count; i++){
-            wait = 100000/(d(gen)+1);
-            fprintf(fp,"%d\n",wait);
+            wait =100000/(d(gen)+1);
+            //cout<<wait<<endl;
+            fprintf(fp,"%f\n",wait);
             usleep(wait);
             th_num = th_queue.pop();
             
             if(th_num == -1){
+                cout<<"1111111111111"<<endl;
                 usleep(1000);
                 i--;
                 continue;
