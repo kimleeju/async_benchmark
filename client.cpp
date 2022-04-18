@@ -16,11 +16,11 @@
 #include <map>
 #include <boost/algorithm/string.hpp>
 #include <boost/math/distributions/pareto.hpp>
-
+#include <boost/math/distributions/complement.hpp>
 #define TH_MAX 40
-#define _PS
+//#define _PS
 //#define _LN
-
+#define _PT
 using namespace std;
 using boost::asio::ip::tcp;
 
@@ -171,6 +171,13 @@ int main(int argc, char* argv[]){
         }
 #endif
 
+#ifdef _PT
+        if(argc != 8){
+            cerr << "Usage : <host> <port> <operation number> <key_size> <value_size> <scale> <shape>" << endl;
+            return 1;
+        }
+#endif
+
         unsigned int size;
 
         long long average=0;
@@ -186,8 +193,9 @@ int main(int argc, char* argv[]){
 #ifdef _LN
         lognormal_distribution<> d(atof(argv[6]),atof(argv[7]));
 #endif
-//        boost:math::pareto_distribution<> d();
-
+#ifdef _PT
+        boost::math::pareto_distribution<> d(atof(argv[6]), atof(argv[7]));
+#endif
         bool th_flag=true;
         b_finish = false;        
 
@@ -220,7 +228,14 @@ int main(int argc, char* argv[]){
 #ifdef _LN
             wait = d(gen)*1000;
 #endif
-            fprintf(fp,"%f\n",wait);
+#ifdef _PT
+            wait = pdf(d,gen());
+//            cout<<"wait = "<<wait<<endl; 
+            //wait=pdf(complement(d,gen));
+            //cout<<"wait = "<<wait<<endl;
+            //    wait = d();
+#endif
+            fprintf(fp,"%.20f\n",wait);
             usleep(wait);
             th_num = th_queue.pop();
             
