@@ -17,6 +17,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/math/distributions/pareto.hpp>
 #include <boost/math/distributions/complement.hpp>
+
 #define TH_MAX 40
 //#define _PS
 //#define _LN
@@ -186,6 +187,7 @@ int main(int argc, char* argv[]){
 		int operation_count = atoi(argv[3]);
 
 //        std::default_random_engine gen;
+
         mt19937 gen(1701);
 #ifdef _PS
         poisson_distribution<> d(atoi(argv[6]));
@@ -194,6 +196,7 @@ int main(int argc, char* argv[]){
         lognormal_distribution<> d(atof(argv[6]),atof(argv[7]));
 #endif
 #ifdef _PT
+        std::uniform_real_distribution<> distr(1.0, 10.0);
         boost::math::pareto_distribution<> d(atof(argv[6]), atof(argv[7]));
 #endif
         bool th_flag=true;
@@ -227,15 +230,13 @@ int main(int argc, char* argv[]){
 
 #ifdef _LN
             wait = d(gen)*1000;
+            //wait = boost::math::pdf(d,gen());
 #endif
 #ifdef _PT
-            wait = pdf(d,gen());
-//            cout<<"wait = "<<wait<<endl; 
-            //wait=pdf(complement(d,gen));
-            //cout<<"wait = "<<wait<<endl;
-            //    wait = d();
+            wait = pdf(d,distr(gen))*100000;
+            
 #endif
-            fprintf(fp,"%.20f\n",wait);
+            fprintf(fp,"%.10f\n",wait);
             usleep(wait);
             th_num = th_queue.pop();
             
