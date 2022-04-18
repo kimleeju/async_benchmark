@@ -10,10 +10,11 @@ done
 
 for FI in $FILE; do
 	start=(`head -n 1 $FI.txt` + 0 )
-	cat $FI.txt | awk '{printf("%.4f\n",$1/1000)}' | sort - | sort -nn  > $n.tmp
+	cat $FI.txt | awk '{printf("%.4f\n",$1/1000)}' | sort -n  > $n.tmp
 	n=$(($n + 1))
 done
 
 echo "percent L=1 L=10 L=50" > $OFILE 
+echo "0 0 0 0" >> $OFILE
 paste $TFILE 0.tmp 1.tmp 2.tmp >> $OFILE
 rm *.tmp
